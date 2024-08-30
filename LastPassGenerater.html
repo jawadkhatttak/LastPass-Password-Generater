@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LastPass Clone</title>
+    <style>
+      .container {
+        background-color: #f0f2f5;
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding-top: 2rem;
+      }
+      /* Checkbox Styling */
+      input[type="checkbox"]{
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+      input[type="checkbox"]:checked {
+        background-color: #dd2222;
+        border-color: #dd2222;
+        appearance: none;
+        width: 1.5rem; 
+        height: 1.5rem; 
+        display: inline-block;
+        position: relative;
+      }
+
+      input[type="checkbox"]:checked::before {
+        content: "✓"; 
+        color: white;
+        font-weight: bold;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Radio Button Styling */
+      input[type="radio"] {
+        appearance: none; 
+        width: 1.5rem; 
+        height: 1.5rem; 
+        border-radius: 50%; 
+        display: inline-block;
+        position: relative;
+        border: 2px solid #d2d2d2; 
+      }
+
+      input[type="radio"]:checked::before {
+        content: ""; 
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0.8rem; 
+        height: 0.8rem; 
+        background-color: red; 
+        border-radius: 50%; 
+        transform: translate(-50%, -50%);
+      }
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30rem;
+        border-bottom: 1rem solid green;
+      }
+      .icons {
+        margin-left: 1rem;
+      }
+      img {
+        width: 2rem;
+        background-color: #ffffff;
+        cursor: pointer;
+        margin-left: 0.5rem;
+      }
+      .top,
+      .middle {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        border-radius: 16px;
+        background-color: #ffffff;
+        padding: 2rem;
+      }
+      #show {
+        width: 25rem;
+        height: 3rem;
+        background-color: #ffffff;
+        border: none;
+        font-size: 1.5rem;
+        text-align: center;
+      }
+      #show:focus {
+        outline: none;
+      }
+      .sections {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 2rem;
+      }
+      .range,
+      .radios,
+      .checkboxes {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .radios > div,
+      .checkboxes > div {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .radios > div > img {
+        width: 1rem;
+      }
+      #num {
+        width: 3rem;
+        font-size: 1.5rem;
+        text-align: center;
+      }
+      h1 {
+        border-bottom: 4px solid #f0f2f5;
+        padding-bottom: 0.5rem;
+      }
+      .btnarea {
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+      button {
+        padding: 0.5rem 1.5rem;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+      #generate {
+        background-color: #dd2222;
+        border: none;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="top">
+        <div class="text">
+          <input
+            id="show"
+            type="text"
+            placeholder="Generated Password"
+            readonly
+          />
+        </div>
+        <div class="icons">
+          <img
+            src="https://www.lastpass.com/assets/images/cdn/img-icon-copy-@3x.png"
+            alt="Copy"
+            title="Copy Password"
+            onclick="copyPassword()"
+          />
+          <img
+            src="https://www.lastpass.com/assets/images/cdn/icon-generate-new.svg"
+            alt="Generate New"
+            title="Generate New Password"
+            onclick="generatePassword()"
+          />
+        </div>
+      </div>
+      <div class="middle">
+        <h1>Customize your password</h1>
+        <div class="sections">
+          <div class="range">
+            <label for="num">Password Length</label>
+            <input type="number" id="num" value="12" min="4" max="32" />
+          </div>
+          <div class="radios">
+            <div>
+              <input type="radio" id="easyToSay" name="complexity" />
+              <label for="easyToSay">Easy to say</label>
+              <img
+                src="https://www.lastpass.com/assets/images/cdn/icon-info.svg"
+                alt="info"
+                title="Easy to say passwords are made from common words."
+              />
+            </div>
+            <div>
+              <input type="radio" id="easyToRead" name="complexity" />
+              <label for="easyToRead">Easy to read</label>
+              <img
+                src="https://www.lastpass.com/assets/images/cdn/icon-info.svg"
+                alt="info"
+                title="Easy to read passwords avoid characters like 1, l, O, 0."
+              />
+            </div>
+            <div>
+              <input type="radio" id="allChars" name="complexity" checked />
+              <label for="allChars">All characters</label>
+              <img
+                src="https://www.lastpass.com/assets/images/cdn/icon-info.svg"
+                alt="info"
+                title="All characters include upper, lower, numbers, and symbols."
+              />
+            </div>
+          </div>
+          <div class="checkboxes">
+            <div>
+              <input type="checkbox" id="uppercase" checked />
+              <label for="uppercase">Uppercase</label>
+            </div>
+            <div>
+              <input type="checkbox" id="lowercase" checked />
+              <label for="lowercase">Lowercase</label>
+            </div>
+            <div>
+              <input type="checkbox" id="numbers" checked />
+              <label for="numbers">Numbers</label>
+            </div>
+            <div>
+              <input type="checkbox" id="symbols" checked />
+              <label for="symbols">Symbols</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btnarea">
+        <button type="button" id="generate" onclick="generatePassword()">
+          Generate Password
+        </button>
+      </div>
+    </div>
+
+    <script>
+      function generateRandomPassword(
+        length,
+        includeLowercase,
+        includeUppercase,
+        includeNumbers,
+        includeSymbols
+      ) {
+        const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+        const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const numberChars = "0123456789";
+        const symbolChars = "!@#$%^&*()_-+=<>?";
+
+        let possibleChars = "";
+        if (includeLowercase) possibleChars += lowercaseChars;
+        if (includeUppercase) possibleChars += uppercaseChars;
+        if (includeNumbers) possibleChars += numberChars;
+        if (includeSymbols) possibleChars += symbolChars;
+
+        if (possibleChars.length === 0) {
+          alert("At least one character type must be selected.");
+          return "";
+        }
+
+        let password = "";
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * possibleChars.length);
+          password += possibleChars[randomIndex];
+        }
+
+        return password;
+      }
+
+      function generatePassword() {
+        const length = document.getElementById("num").value;
+        const includeLowercase = document.getElementById("lowercase").checked;
+        const includeUppercase = document.getElementById("uppercase").checked;
+        const includeNumbers = document.getElementById("numbers").checked;
+        const includeSymbols = document.getElementById("symbols").checked;
+
+        const password = generateRandomPassword(
+          length,
+          includeLowercase,
+          includeUppercase,
+          includeNumbers,
+          includeSymbols
+        );
+        document.getElementById("show").value = password;
+      }
+
+      function copyPassword() {
+        const passwordField = document.getElementById("show");
+        passwordField.select();
+        passwordField.setSelectionRange(0, 99999); 
+        navigator.clipboard.writeText(passwordField.value).then(
+          function () {
+            alert("Password copied to clipboard!");
+          },
+          function (err) {
+            console.error("Could not copy text: ", err);
+          }
+        );
+      }
+
+    
+      document.addEventListener("DOMContentLoaded", generatePassword);
+    </script>
+  </body>
+</html>
